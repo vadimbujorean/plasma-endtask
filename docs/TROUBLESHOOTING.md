@@ -60,11 +60,11 @@ or delete panel configuration.
 
 ## Missing icon
 
-End Task uses the standard KDE `process-stop` theme icon; Close uses
-`window-close`. There is no custom icon file to install. Check that your icon
-theme provides these names. Try Breeze and make sure the desktop's SVG/icon
-rendering plugins are installed (on Arch, these include `qt6-svg`).
-The exact icon appearance and color depend on your desktop theme.
+End Task uses the bundled `contents/icons/end-task-white.svg`; Close uses the
+`window-close` theme icon. Check that the SVG exists in the installed package
+and that Qt's SVG plugin is installed (on Arch: `qt6-svg`), then reinstall and
+reload Plasma. The End Task symbol is intentionally fixed white; it can have
+low contrast on very light menus. Only the Close icon follows the icon theme.
 
 ## Disabled action or no eligible process
 

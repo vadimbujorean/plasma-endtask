@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.1
+
+- Use the white geometric End Task icon extracted from the menu preview.
+- Keep the End Task icon white instead of inheriting the theme's destructive color.
+- Verify that the bundled SVG matches the preview and renders white in a KDE menu item.
+- Update icon documentation and keep all artwork under GPL-2.0-or-later.
+
 ## 1.2.0
 
 - Removed bundled branding and switched to the standard KDE stop icon.

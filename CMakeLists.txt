@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 cmake_minimum_required(VERSION 3.21)
-project(PlasmaEndTask VERSION 1.2.0 LANGUAGES CXX)
+project(PlasmaEndTask VERSION 1.2.1 LANGUAGES CXX)
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Linux")
     message(FATAL_ERROR "Plasma End Task requires Linux (pidfd support).")
@@ -12,7 +12,7 @@ find_package(Qt6 REQUIRED COMPONENTS Core Qml Widgets)
 
 # Build a self-contained KPackage. No file in /usr is changed.
 set(PACKAGE_DIR "${CMAKE_BINARY_DIR}/package")
-# Remove retired bundled artwork and stale license copies on reconfigure.
+# Refresh bundled icons and licenses to avoid stale copies on reconfigure.
 file(REMOVE_RECURSE "${PACKAGE_DIR}/contents/icons" "${PACKAGE_DIR}/LICENSES")
 file(COPY "${CMAKE_SOURCE_DIR}/package/" DESTINATION "${PACKAGE_DIR}")
 file(COPY "${CMAKE_SOURCE_DIR}/LICENSE" "${CMAKE_SOURCE_DIR}/LICENSES"
@@ -47,4 +47,11 @@ if(BUILD_TESTING)
         COMMAND "${Python3_EXECUTABLE}" "${CMAKE_SOURCE_DIR}/tests/helper-safety.py"
             "$<TARGET_FILE:endtask-helper>" "$<TARGET_FILE:dialog-automation>")
     set_tests_properties(helper-safety PROPERTIES TIMEOUT 20)
+    add_executable(menu-icon-check tests/menu-icon-check.cpp)
+    target_link_libraries(menu-icon-check PRIVATE Qt6::Widgets Qt6::Qml)
+    file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
+    configure_file(tests/menu-icon.qml "${CMAKE_BINARY_DIR}/tests/menu-icon.qml" COPYONLY)
+    add_test(NAME white-menu-icon
+        COMMAND menu-icon-check "${CMAKE_BINARY_DIR}/tests/menu-icon.qml")
+    set_tests_properties(white-menu-icon PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QT_FORCE_STDERR_LOGGING=1")
 endif()

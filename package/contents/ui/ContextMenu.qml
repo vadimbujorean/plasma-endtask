@@ -819,7 +819,7 @@ PlasmaExtras.Menu {
         visible: closeWindowItem.visible
         enabled: menu.visualParent && menu.terminationPids().length > 0
         text: "End Task"
-        icon: "process-stop"
+        icon: decodeURIComponent(Qt.resolvedUrl("../icons/end-task-white.svg").toString().replace("file://", ""))
 
         onClicked: {
             const pids = menu.terminationPids();

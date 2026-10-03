@@ -4,7 +4,7 @@
 
 A separate version of **Icons-Only Task Manager** with force-quit support and
 a safety confirmation. **End Task appears immediately above Close**, using
-the standard KDE `process-stop` theme icon. No custom logos are bundled.
+the white geometric stop icon shown in the preview. No third-party logos are bundled.
 
 ![Schematic menu preview](docs/menu-preview.svg)
 
@@ -25,7 +25,7 @@ the standard KDE `process-stop` theme icon. No custom logos are bundled.
 - Excludes other users' processes, system PIDs and protected Plasma/KWin processes.
 - Installs **for the current user only**, without changing files in `/usr`.
 - Does not automatically change your panel, the original KDE widget or pinned apps.
-- Uses the desktop's standard icons rather than bundled branding.
+- Includes the preview's white End Task symbol, independent of the desktop theme.
 
 The action is shown for running apps with windows, not launcher-only entries.
 It is disabled when a suitable PID is unavailable. The project's action,
@@ -167,7 +167,8 @@ ctest --test-dir build-tests --output-on-failure
 ```
 
 Tests check the source package, English metadata and preview, menu ordering,
-the standard theme icon, QML compilation and helper behavior on disposable
+the SVG's match to the preview, actual white menu-icon rendering, QML compilation
+and helper behavior on disposable
 `sleep` processes. Cancellation and actual SIGKILL are tested only on those
 processes: **no real user application is terminated**. Full tests require the
 supported KDE runtime. GitHub CI runs static checks without starting KDE.

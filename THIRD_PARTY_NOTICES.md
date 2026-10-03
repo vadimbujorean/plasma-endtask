@@ -20,10 +20,11 @@ is loaded from the user's system, not copied or redistributed in this repository
 
 ## Icons and preview
 
-The widget requests the standard `process-stop` and `window-close` icon names
-from the desktop's icon theme. No third-party logos or icon files are bundled.
-The schematic preview in `docs/menu-preview.svg` uses simple geometric stop
-and close symbols and is licensed under GPL-2.0-or-later.
+The End Task icon in `package/contents/icons/end-task-white.svg` is extracted
+from this project's schematic preview in `docs/menu-preview.svg`. Both use
+simple geometric shapes and are licensed under GPL-2.0-or-later. No third-party
+logos are bundled. Close requests the standard `window-close` icon from the
+user's desktop theme; that theme's files are not redistributed here.
 
 This is an independent project. It does not imply affiliation with or
 endorsement by KDE. Trademarks remain the property of their respective owners.

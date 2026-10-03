@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="18 18 24 24">
+<!-- SPDX-License-Identifier: GPL-2.0-or-later -->
+<title>End Task</title>
+<desc>White outlined stop symbol with a cross, extracted from the project's menu preview.</desc>
+<path d="M26 20 H34 L40 26 V34 L34 40 H26 L20 34 V26 Z" fill="none" stroke="#fff" stroke-width="1.5"/>
+<path d="M26 26 L34 34 M34 26 L26 34" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

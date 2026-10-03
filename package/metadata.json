@@ -7,7 +7,7 @@
         "Icon": "preferences-system-windows",
         "Category": "Windows and Tasks",
         "License": "GPL-2.0-or-later",
-        "Version": "1.2.0",
+        "Version": "1.2.1",
         "Website": "https://github.com/vadimbujorean/plasma-endtask",
         "Authors": [
             {

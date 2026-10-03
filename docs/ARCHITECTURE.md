@@ -34,9 +34,10 @@ local.plasma.icontasks.endtask
 ```
 
 Layout JavaScript files use local imports and recognize the new ID without
-changing the original widget. The End Task action uses the standard
-`process-stop` icon from the desktop theme, rather than a bundled SVG.
-No user-specific absolute paths are needed.
+changing the original widget. The End Task action loads
+`contents/icons/end-task-white.svg`, extracted from the menu preview. Its color
+is fixed white and does not depend on the icon theme. The path is resolved
+relative to the package; no user-specific absolute paths are needed.
 
 This project uses internal KDE APIs and does **not** promise compatibility
 with every Plasma version. Its resource baseline is Plasma 6.7.5.
