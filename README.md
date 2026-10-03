@@ -4,9 +4,11 @@
 
 A separate version of **Icons-Only Task Manager** with force-quit support and
 a safety confirmation. **End Task appears immediately above Close**, using
-the white geometric stop icon shown in the preview. No third-party logos are bundled.
+the geometric stop icon shown in the preview. Its color follows the menu's
+text palette: light on dark themes, dark on light themes, and the text color
+of custom schemes. No third-party logos are bundled.
 
-![Schematic menu preview](docs/menu-preview.svg)
+![Schematic dark-theme menu preview](docs/menu-preview.svg)
 
 > **Compatibility:** Linux + KDE Plasma **6.7.x**. Tested on Plasma **6.7.5**,
 > Qt **6.11.2**, **Wayland**, Arch Linux/CachyOS.
@@ -25,7 +27,8 @@ the white geometric stop icon shown in the preview. No third-party logos are bun
 - Excludes other users' processes, system PIDs and protected Plasma/KWin processes.
 - Installs **for the current user only**, without changing files in `/usr`.
 - Does not automatically change your panel, the original KDE widget or pinned apps.
-- Includes the preview's white End Task symbol, independent of the desktop theme.
+- Uses the preview's End Task symbol and adapts its color to the desktop text palette.
+- Refreshes an open menu's icon when the application palette changes.
 
 The action is shown for running apps with windows, not launcher-only entries.
 It is disabled when a suitable PID is unavailable. The project's action,
@@ -38,6 +41,7 @@ labels may follow your desktop's language settings.
 - KDE Plasma Desktop **6.7.x**, including its native Task Manager library.
 - Qt6 development files for **Core, Qml and Widgets**, Qt tools (`moc`),
   and the desktop's icon-rendering plugins.
+- **KF6 IconThemes** development files for palette-aware SVG rendering.
 - A C++17 compiler (GCC or Clang), CMake ≥ 3.21, and Make/Ninja.
 - `kpackagetool6`, `plasmashell`, Bash; Git if cloning the repository.
 - Python 3 only for tests.
@@ -47,7 +51,7 @@ labels may follow your desktop's language settings.
 On an up-to-date system already running the supported Plasma version:
 
 ```bash
-sudo pacman -S --needed base-devel cmake git qt6-base qt6-declarative qt6-svg plasma-desktop plasma-workspace
+sudo pacman -S --needed base-devel cmake git qt6-base qt6-declarative qt6-svg kiconthemes plasma-desktop plasma-workspace
 ```
 
 Check your version first:
@@ -167,7 +171,8 @@ ctest --test-dir build-tests --output-on-failure
 ```
 
 Tests check the source package, English metadata and preview, menu ordering,
-the SVG's match to the preview, actual white menu-icon rendering, QML compilation
+the SVG's match to the preview, live dark/light/custom menu-icon recoloring,
+QML compilation
 and helper behavior on disposable
 `sleep` processes. Cancellation and actual SIGKILL are tested only on those
 processes: **no real user application is terminated**. Full tests require the

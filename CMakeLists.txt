@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 cmake_minimum_required(VERSION 3.21)
-project(PlasmaEndTask VERSION 1.2.1 LANGUAGES CXX)
+project(PlasmaEndTask VERSION 1.3.0 LANGUAGES CXX)
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Linux")
     message(FATAL_ERROR "Plasma End Task requires Linux (pidfd support).")
@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 find_package(Qt6 REQUIRED COMPONENTS Core Qml Widgets)
+find_package(KF6IconThemes REQUIRED)
 
 # Build a self-contained KPackage. No file in /usr is changed.
 set(PACKAGE_DIR "${CMAKE_BINARY_DIR}/package")
@@ -20,7 +21,7 @@ file(COPY "${CMAKE_SOURCE_DIR}/LICENSE" "${CMAKE_SOURCE_DIR}/LICENSES"
 set(SUPPORT_DIR "${PACKAGE_DIR}/contents/ui/support")
 
 add_library(endtasksupport MODULE src/support.cpp)
-target_link_libraries(endtasksupport PRIVATE Qt6::Core Qt6::Qml)
+target_link_libraries(endtasksupport PRIVATE Qt6::Core Qt6::Qml Qt6::Gui KF6::IconThemes)
 set_target_properties(endtasksupport PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${SUPPORT_DIR}")
 add_executable(endtask-helper src/endtask-helper.cpp)
 target_link_libraries(endtask-helper PRIVATE Qt6::Widgets)
@@ -51,7 +52,7 @@ if(BUILD_TESTING)
     target_link_libraries(menu-icon-check PRIVATE Qt6::Widgets Qt6::Qml)
     file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
     configure_file(tests/menu-icon.qml "${CMAKE_BINARY_DIR}/tests/menu-icon.qml" COPYONLY)
-    add_test(NAME white-menu-icon
+    add_test(NAME theme-menu-icon
         COMMAND menu-icon-check "${CMAKE_BINARY_DIR}/tests/menu-icon.qml")
-    set_tests_properties(white-menu-icon PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QT_FORCE_STDERR_LOGGING=1")
+    set_tests_properties(theme-menu-icon PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QT_FORCE_STDERR_LOGGING=1")
 endif()

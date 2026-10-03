@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0
+
+- Make the End Task symbol follow the application's text palette instead of fixed white.
+- Recolor the symbolic SVG through KF6 IconThemes and refresh it on live palette changes.
+- Add KF6 IconThemes as an explicit build dependency.
+- Test dark, light, custom and repeated palette changes on the same KDE menu item.
+- Rename the bundled icon to `end-task.svg` and update theme documentation.
+
 ## 1.2.1
 
 - Use the white geometric End Task icon extracted from the menu preview.

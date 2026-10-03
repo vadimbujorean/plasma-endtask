@@ -35,9 +35,14 @@ local.plasma.icontasks.endtask
 
 Layout JavaScript files use local imports and recognize the new ID without
 changing the original widget. The End Task action loads
-`contents/icons/end-task-white.svg`, extracted from the menu preview. Its color
-is fixed white and does not depend on the icon theme. The path is resolved
-relative to the package; no user-specific absolute paths are needed.
+`contents/icons/end-task.svg`, extracted from the menu preview. Its paths use
+KDE's symbolic `ColorScheme-Text` class and `currentColor` strokes.
+`ProcessController.endTaskIcon` returns a real QIcon through KF6 IconThemes,
+using the application's active WindowText palette color. The property notifies
+QML on palette, theme and style changes so an existing menu item refreshes.
+Using KDE's icon engine explicitly avoids the fixed-color behavior of loading
+an absolute SVG path through Qt alone. The SVG path is resolved relative to
+the package; no user-specific absolute paths are needed.
 
 This project uses internal KDE APIs and does **not** promise compatibility
 with every Plasma version. Its resource baseline is Plasma 6.7.5.

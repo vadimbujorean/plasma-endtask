@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 import org.kde.plasma.extras as PlasmaExtras
+import "../package/contents/ui/support" as EndTaskSupport
 
 PlasmaExtras.MenuItem {
+    readonly property EndTaskSupport.ProcessController controller: EndTaskSupport.ProcessController {}
     text: "End Task"
-    icon: decodeURIComponent(Qt.resolvedUrl("../package/contents/icons/end-task-white.svg").toString().replace("file://", ""))
+    icon: controller.endTaskIcon
 }

@@ -10,7 +10,14 @@ editing metadata alone: native types or the QML layout may be different.
 
 Install the development dependencies listed in the README. Package names
 vary by distribution. You need Qt6 Core/Qml/Widgets, Qt6 tools (`moc`), the
-desktop's icon-rendering plugins, a C++17 compiler and CMake ≥ 3.21.
+desktop's icon-rendering plugins, KF6 IconThemes development files, a C++17
+compiler and CMake ≥ 3.21.
+
+## KF6IconThemes not found
+
+Install the KDE Frameworks 6 IconThemes development package. On Arch/CachyOS,
+use `sudo pacman -S --needed kiconthemes`. Other distributions may separate
+development headers from the runtime package. Do not substitute KF5 libraries.
 
 ## Non-fatal build warnings
 
@@ -60,11 +67,18 @@ or delete panel configuration.
 
 ## Missing icon
 
-End Task uses the bundled `contents/icons/end-task-white.svg`; Close uses the
+End Task uses the bundled `contents/icons/end-task.svg`; Close uses the
 `window-close` theme icon. Check that the SVG exists in the installed package
-and that Qt's SVG plugin is installed (on Arch: `qt6-svg`), then reinstall and
-reload Plasma. The End Task symbol is intentionally fixed white; it can have
-low contrast on very light menus. Only the Close icon follows the icon theme.
+and that Qt's SVG plugin and KF6 IconThemes are installed (on Arch: `qt6-svg`
+and `kiconthemes`), then reinstall and reload Plasma.
+
+## Icon does not follow the theme
+
+Starting with 1.3.0, End Task follows the application's active text palette,
+not the icon theme's destructive/negative color. Switching only the icon theme
+without changing the color scheme may leave the text color unchanged; that is
+expected. After upgrading, reload Plasma so the new native plugin is loaded.
+Changing the desktop's color scheme then updates the icon automatically.
 
 ## Disabled action or no eligible process
 

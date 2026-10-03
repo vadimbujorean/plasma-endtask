@@ -20,11 +20,13 @@ is loaded from the user's system, not copied or redistributed in this repository
 
 ## Icons and preview
 
-The End Task icon in `package/contents/icons/end-task-white.svg` is extracted
-from this project's schematic preview in `docs/menu-preview.svg`. Both use
-simple geometric shapes and are licensed under GPL-2.0-or-later. No third-party
-logos are bundled. Close requests the standard `window-close` icon from the
-user's desktop theme; that theme's files are not redistributed here.
+The End Task icon in `package/contents/icons/end-task.svg` is extracted from
+this project's schematic preview in `docs/menu-preview.svg`. Both use simple
+geometric shapes and are licensed under GPL-2.0-or-later. The icon uses the
+system's KF6 IconThemes library to follow the application text palette; that
+library is a system dependency and is not bundled. No third-party logos are
+bundled. Close requests the standard `window-close` icon from the user's desktop
+theme; that theme's files are not redistributed here.
 
 This is an independent project. It does not imply affiliation with or
 endorsement by KDE. Trademarks remain the property of their respective owners.

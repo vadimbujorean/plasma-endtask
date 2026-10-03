@@ -9,13 +9,32 @@
 #include <QDir>
 #include <QUrl>
 #include <QSet>
+#include <QGuiApplication>
+#include <QEvent>
+#include <QIcon>
+#include <QPalette>
+#include <KIconColors>
+#include <KIconLoader>
 #include <cmath>
 
 static QString helperPath;
+static QString iconPath;
 class ProcessController : public QObject {
     Q_OBJECT
+    Q_PROPERTY(QIcon endTaskIcon READ endTaskIcon NOTIFY endTaskIconChanged)
 public:
-    using QObject::QObject;
+    explicit ProcessController(QObject *parent = nullptr) : QObject(parent) {
+        if (auto *application = QCoreApplication::instance()) {
+            application->installEventFilter(this);
+        }
+    }
+    QIcon endTaskIcon() const {
+        const QPalette palette = QGuiApplication::palette();
+        KIconColors colors(palette);
+        colors.setText(palette.color(QPalette::Active, QPalette::WindowText));
+        // Force KDE's symbolic SVG recoloring even when loading an absolute path.
+        return KDE::icon(iconPath, colors);
+    }
     Q_INVOKABLE bool requestTermination(const QVariantList &pids) {
         QStringList arguments;
         QSet<qint64> seen;
@@ -30,6 +49,17 @@ public:
         }
         if (arguments.isEmpty()) return false;
         return QProcess::startDetached(helperPath, arguments);
+    }
+Q_SIGNALS:
+    void endTaskIconChanged();
+protected:
+    bool eventFilter(QObject *, QEvent *event) override {
+        if (event->type() == QEvent::ApplicationPaletteChange
+            || event->type() == QEvent::ThemeChange
+            || event->type() == QEvent::StyleChange) {
+            Q_EMIT endTaskIconChanged();
+        }
+        return false;
     }
 };
 
@@ -46,7 +76,9 @@ public:
             qWarning("Cannot load KDE task manager: %s", qPrintable(original.errorString()));
             return;
         }
-        helperPath = QDir(baseUrl().toLocalFile()).filePath("endtask-helper");
+        const QDir supportDir(baseUrl().toLocalFile());
+        helperPath = supportDir.filePath("endtask-helper");
+        iconPath = QDir::cleanPath(supportDir.filePath("../../icons/end-task.svg"));
         qmlRegisterType<ProcessController>(uri, 1, 0, "ProcessController");
     }
 };
