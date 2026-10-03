@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="310" height="108" viewBox="0 0 310 108">
+<!-- SPDX-License-Identifier: GPL-2.0-or-later -->
+<title>Schematic preview: End Task above Close</title>
+<desc>English menu illustration with generic stop and close symbols. Actual icons depend on the desktop theme.</desc>
+<rect x="1" y="1" width="308" height="106" rx="8" fill="#202124" stroke="#56585c"/>
+<path d="M26 20 H34 L40 26 V34 L34 40 H26 L20 34 V26 Z" fill="none" stroke="#fff" stroke-width="1.5"/>
+<path d="M26 26 L34 34 M34 26 L26 34" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+<text x="57" y="36" fill="#fff" font-family="sans-serif" font-size="16">End Task</text>
+<path d="M24 68 L36 80 M36 68 L24 80" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+<text x="57" y="81" fill="#fff" font-family="sans-serif" font-size="16">Close</text>
+</svg>

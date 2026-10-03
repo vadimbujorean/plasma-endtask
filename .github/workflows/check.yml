@@ -1,0 +1,23 @@
+name: Source checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  source-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Shell syntax
+        run: bash -n install.sh uninstall.sh
+      - name: Package and license checks
+        run: python3 tests/check-package.py
+      - name: Python syntax (no generated files)
+        run: |
+          python3 - <<'PY'
+          import ast
+          from pathlib import Path
+          for path in Path('tests').glob('*.py'):
+              ast.parse(path.read_text(), filename=str(path))
+          PY

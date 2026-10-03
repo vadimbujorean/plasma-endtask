@@ -1,0 +1,14 @@
+/build/
+/build-*/
+/dist/
+*.zip
+*.tar.gz
+*.plasmoid
+__pycache__/
+*.py[cod]
+*.so
+*.o
+*.moc
+CMakeUserPresets.json
+.DS_Store
+*~
