@@ -62,8 +62,37 @@ installed location while it is in use.
 
 Adding the new widget does not remove the original. After verifying the new
 widget, you can remove the original from the panel and pin apps in the new one.
-The widgets have separate settings. This project does not automatically copy
-or delete panel configuration.
+With manual setup the widgets have separate settings. To replace existing
+original icons-only task managers while preserving their settings and pinned
+apps, use `bash install.sh --replace-task-manager` instead. This changes all
+matching widgets in KDE panels, but does not remove an extra custom widget
+already added manually.
+
+## Automatic panel replacement
+
+`--replace-task-manager` requires Python 3 and an active
+`plasma-plasmashell.service` user service. Without them, use manual setup; do not
+edit the configuration while Plasma is running. If no original icons-only task
+manager is found, the command does not create one. Already-custom widgets are
+left unchanged.
+
+A synchronized panel configuration backup is printed before editing. On an
+error, the script attempts to restore it and start Plasma. If the service cannot
+be recovered, or you want to undo the replacement, open a terminal and run:
+
+```bash
+systemctl --user stop plasma-plasmashell.service
+# Continue only if the stop command succeeded. Replace /path/to/backup below
+# with the exact file path printed by the installer.
+cp -a -- /path/to/backup/plasma-org.kde.plasma.desktop-appletsrc "${XDG_CONFIG_HOME:-$HOME/.config}/plasma-org.kde.plasma.desktop-appletsrc"
+systemctl --user start plasma-plasmashell.service
+```
+
+This restores the **entire saved panel/desktop layout**, including original
+widget IDs, settings and pinned apps; later layout changes will be lost.
+KDE's original widget is still installed. The custom package remains installed
+until you run `bash uninstall.sh`. Never uninstall the custom package while
+panels still reference it.
 
 ## Missing icon
 

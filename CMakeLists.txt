@@ -41,6 +41,8 @@ if(BUILD_TESTING)
     target_link_libraries(dialog-automation PRIVATE Qt6::Widgets ${CMAKE_DL_LIBS})
     add_test(NAME package-check
         COMMAND "${Python3_EXECUTABLE}" "${CMAKE_SOURCE_DIR}/tests/check-package.py" "${CMAKE_SOURCE_DIR}")
+    add_test(NAME panel-replacement
+        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_SOURCE_DIR}/tests/panel-replacement.py")
     add_test(NAME qml-compile
         COMMAND qml-check "${PACKAGE_DIR}/contents/ui/main.qml" --compile-only)
     set_tests_properties(qml-compile PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QT_FORCE_STDERR_LOGGING=1")

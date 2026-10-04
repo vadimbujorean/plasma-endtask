@@ -9,6 +9,8 @@ src/endtask-helper.cpp    Confirmation dialog and pidfd-based termination
 src/check-runtime.cpp     KDE runtime and pidfd checks before installation
 install.sh                Per-user build, compatibility checks and installation
 uninstall.sh              Removal of the custom widget only
+scripts/panel-config.py    Byte-preserving panel plugin-ID replacement
+scripts/replace-task-manager.sh  Stopped-shell backup, replacement and recovery
 CMakeLists.txt            Portable build using Qt6 targets
 LICENSE, LICENSES/        License texts
 tests/                    Isolated tests, excluded from the installed widget
@@ -94,5 +96,21 @@ Upgrade backups:
 ${XDG_STATE_HOME:-~/.local/state}/plasma-endtask/backups/
 ```
 
-Panels and `plasma-org.kde.plasma.desktop-appletsrc` are not changed automatically.
-Normal installation does not restart Plasma; `--restart` is an explicit choice.
+Normal installation leaves panels and `plasma-org.kde.plasma.desktop-appletsrc`
+unchanged and does not restart Plasma; `--restart` is an explicit choice.
+
+`--replace-task-manager` explicitly opts into panel changes and requires Python 3
+and the active Plasma systemd user service. Preflight runs before building. After
+package installation, the service is stopped so Plasma saves its current layout.
+The synchronized applet configuration is backed up, then only `plugin` entries
+for direct `org.kde.plasma.icontasks` applets of `org.kde.panel` containments are
+changed to the custom ID. IDs, order, launchers, other settings and unrelated
+bytes are retained. The file is replaced atomically with its permissions retained;
+symlinks, foreign-owned files, immutable entries and ambiguous plugin entries are
+rejected. Already-custom widgets are untouched, making repeated runs safe.
+
+Plasma is started again afterwards. On failure or a caught signal, the script
+attempts to stop the service, restore the backup and start the service. SIGKILL,
+power loss and service failures may require manual recovery from the printed
+backup path. Original KDE package files are never changed. No new widget is
+created if there is no matching original panel widget.

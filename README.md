@@ -26,7 +26,8 @@ of custom schemes. No third-party logos are bundled.
 - Uses `pidfd` to avoid targeting a different process if a PID is reused.
 - Excludes other users' processes, system PIDs and protected Plasma/KWin processes.
 - Installs **for the current user only**, without changing files in `/usr`.
-- Does not automatically change your panel, the original KDE widget or pinned apps.
+- Leaves your panel unchanged by default; optional automatic replacement preserves settings and pinned apps.
+- Never changes or uninstalls the original KDE widget's files.
 - Uses the preview's End Task symbol and adapts its color to the desktop text palette.
 - Refreshes an open menu's icon when the application palette changes.
 
@@ -44,7 +45,8 @@ labels may follow your desktop's language settings.
 - **KF6 IconThemes** development files for palette-aware SVG rendering.
 - A C++17 compiler (GCC or Clang), CMake ≥ 3.21, and Make/Ninja.
 - `kpackagetool6`, `plasmashell`, Bash; Git if cloning the repository.
-- Python 3 only for tests.
+- Python 3 for tests and the optional `--replace-task-manager` mode.
+- An active `plasma-plasmashell.service` user service for automatic panel replacement.
 
 ### Arch Linux / CachyOS
 
@@ -89,8 +91,8 @@ bash install.sh
 ```
 
 The script checks Plasma, builds the C++ components, verifies the KDE runtime
-and installs the widget for your user. It does not download dependencies, run
-remote commands, restart Plasma or modify your panel.
+and installs the widget for your user. It does not download dependencies or run
+remote commands. By default, it does not restart Plasma or modify your panel.
 
 To install and immediately reload Plasma **on systems using its systemd service**:
 
@@ -113,6 +115,43 @@ that system's Qt6 libraries.
 
 ## 4. Add it to your taskbar
 
+### Automatic setup (skip the manual steps)
+
+Instead of the normal install command, run:
+
+```bash
+bash install.sh --replace-task-manager
+```
+
+This installs the widget and replaces **all original Icons-Only Task Managers
+in KDE panels** with **Icons-Only Task Manager — End Task**. It changes only
+the plugin ID of each existing widget, preserving its widget ID, panel position,
+settings and pinned apps. It does not add a second taskbar, change desktop widgets
+or replace the non-icons-only Task Manager. KDE's original widget stays installed.
+
+**Requires Python 3 and an active `plasma-plasmashell.service` user service.**
+Plasma stops briefly to save its latest configuration, then the script backs up
+`${XDG_CONFIG_HOME:-~/.config}/plasma-org.kde.plasma.desktop-appletsrc`, changes
+the plugin IDs and starts Plasma again. Other applications stay open. The backup
+path is printed and saved under:
+
+```text
+${XDG_STATE_HOME:-~/.local/state}/plasma-endtask/backups/before-panel-replacement-*/
+```
+
+If editing or starting Plasma fails, the script attempts to restore the backup
+and start Plasma again. Keep the backup for recovery; see
+[Troubleshooting](docs/TROUBLESHOOTING.md#automatic-panel-replacement).
+The installed package is not rolled back if panel setup fails.
+
+You can repeat the command safely: widgets already using End Task are not
+changed. If no original icons-only task manager exists in any panel, nothing is
+added; use the manual steps below. `--restart` is redundant in this mode, and
+`--build-only` cannot be combined with it. On systems without the active service,
+use manual setup instead.
+
+### Manual setup (default)
+
 1. Right-click the panel → **Enter Edit Mode**.
 2. Select **Add Widgets**.
 3. Search for **End Task**.
@@ -121,8 +160,9 @@ that system's Qt6 libraries.
    manager from the panel to avoid having two taskbars. **Do not uninstall
    the original KDE widget.**
 
-The new widget has separate settings. Adding it as a new widget may require
+When added manually, the new widget has separate settings and may require
 pinning your apps again; the original widget keeps its own configuration.
+Automatic replacement reuses the existing configuration instead.
 
 Right-click a running app's icon → **End Task** → check the process names and
 PIDs → confirm or cancel.
@@ -170,7 +210,16 @@ cmake --build build-tests --parallel 2
 ctest --test-dir build-tests --output-on-failure
 ```
 
-Tests check the source package, English metadata and preview, menu ordering,
+Panel replacement tests use temporary configuration files and mocked systemd
+commands: **your real panel and Plasma service are never modified by tests**.
+Run them independently without KDE:
+
+```bash
+python3 tests/panel-replacement.py
+```
+
+Tests check automatic replacement, pinned-app/settings preservation, rollback,
+installer flags, the source package, English metadata and preview, menu ordering,
 the SVG's match to the preview, live dark/light/custom menu-icon recoloring,
 QML compilation
 and helper behavior on disposable

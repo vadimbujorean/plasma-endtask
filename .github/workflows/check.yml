@@ -10,14 +10,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Shell syntax
-        run: bash -n install.sh uninstall.sh
+        run: |
+          for script in install.sh uninstall.sh scripts/replace-task-manager.sh; do
+            bash -n "$script"
+          done
       - name: Package and license checks
         run: python3 tests/check-package.py
+      - name: Panel replacement and installer tests (mocked systemd)
+        run: python3 tests/panel-replacement.py
       - name: Python syntax (no generated files)
         run: |
           python3 - <<'PY'
           import ast
           from pathlib import Path
-          for path in Path('tests').glob('*.py'):
-              ast.parse(path.read_text(), filename=str(path))
+          for directory in ('tests', 'scripts'):
+              for path in Path(directory).glob('*.py'):
+                  ast.parse(path.read_text(), filename=str(path))
           PY

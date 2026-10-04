@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Add optional `install.sh --replace-task-manager` automatic panel setup.
+- Preserve widget IDs, panel order, settings and pinned apps by changing only plugin IDs.
+- Back up the synchronized panel configuration while Plasma is stopped, with recovery on failure.
+- Document automatic setup, requirements and manual backup restoration.
+- Test configuration changes, installer flags and rollback using mocked systemd commands.
+
 ## 1.3.0
 
 - Make the End Task symbol follow the application's text palette instead of fixed white.
