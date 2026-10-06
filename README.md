@@ -94,27 +94,6 @@ The script checks Plasma, builds the C++ components, verifies the KDE runtime
 and installs the widget for your user. It does not download dependencies or run
 remote commands. By default, it does not restart Plasma or modify your panel.
 
-To install and immediately reload Plasma **on systems using its systemd service**:
-
-```bash
-bash install.sh --restart
-```
-
-The panel may disappear briefly; your other applications stay open.
-On other systems, log out and back in after updating the widget.
-
-### Build without installing
-
-```bash
-bash install.sh --build-only
-```
-
-The compiled package is in `build/package/`. The GitHub source archive is
-**not a precompiled `.plasmoid`**: build it on the destination system using
-that system's Qt6 libraries.
-
-## 4. Add it to your taskbar
-
 ### Automatic setup (skip the manual steps)
 
 Instead of the normal install command, run:
@@ -149,6 +128,27 @@ changed. If no original icons-only task manager exists in any panel, nothing is
 added; use the manual steps below. `--restart` is redundant in this mode, and
 `--build-only` cannot be combined with it. On systems without the active service,
 use manual setup instead.
+
+To install and immediately reload Plasma **on systems using its systemd service**:
+
+```bash
+bash install.sh --restart
+```
+
+The panel may disappear briefly; your other applications stay open.
+On other systems, log out and back in after updating the widget.
+
+### Build without installing
+
+```bash
+bash install.sh --build-only
+```
+
+The compiled package is in `build/package/`. The GitHub source archive is
+**not a precompiled `.plasmoid`**: build it on the destination system using
+that system's Qt6 libraries.
+
+## 4. Add it to your taskbar
 
 ### Manual setup (default)
 
