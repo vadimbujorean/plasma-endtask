@@ -266,17 +266,8 @@ ColumnLayout {
             // shadow can cover up the highlight
             anchors.margins: Kirigami.Units.smallSpacing * 2
 
-            sourceComponent: root.isMinimized || pipeWireLoader.active ? iconItem : x11Thumbnail
-
-            Component {
-                id: x11Thumbnail
-
-                PlasmaCore.WindowThumbnail {
-                    winId: thumbnailSourceItem.winId
-                }
-            }
-
-            // when minimized, we don't have a preview on X11, so show the icon
+            // Window previews use PipeWire; show the app icon when no preview is available.
+            sourceComponent: iconItem
             Component {
                 id: iconItem
 
