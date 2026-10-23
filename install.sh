@@ -41,8 +41,8 @@ for command in cmake plasmashell kpackagetool6; do
     fi
 done
 version=$(plasmashell --version 2>/dev/null)
-if [[ ! "$version" =~ (^|[[:space:]])6\.7\.[0-9]+([[:space:]]|$) ]]; then
-    printf 'Unsupported version: %s\nThis release requires Plasma 6.7.x (tested on 6.7.5).\n' "$version" >&2
+if [[ ! "$version" =~ (^|[[:space:]])6\.(7|8)\.[0-9]+([[:space:]]|$) ]]; then
+    printf 'Unsupported version: %s\nThis release requires Plasma 6.7.x or 6.8.x (verified on 6.7.5 and 6.8.1).\n' "$version" >&2
     exit 1
 fi
 if [[ "${XDG_SESSION_TYPE:-}" == x11 ]]; then

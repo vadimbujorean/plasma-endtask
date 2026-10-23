@@ -2,9 +2,19 @@
 
 ## Unsupported version
 
-Check `plasmashell --version`. This release uses Plasma 6.7 resources/APIs;
-it does not support Plasma 5 or Plasma 6.0–6.6. Do not bypass the check by
-editing metadata alone: native types or the QML layout may be different.
+Check `plasmashell --version`. The installer accepts Plasma 6.7.x and 6.8.x;
+End Task was originally tested on 6.7.5 and confirmed working by the user on
+6.8.1. Plasma 5, Plasma 6.0–6.6 and Plasma 6.9+ are not supported. Do not
+bypass the check by editing metadata alone: native types or the QML layout
+may be different.
+
+## PlasmaCore.WindowThumbnail is not a type
+
+Older copies of this widget fail to load on Plasma 6.8 because the tooltip
+references the unavailable `PlasmaCore.WindowThumbnail` type. Update to the
+latest project source, reinstall, then reload Plasma or log out and back in.
+The fix keeps Wayland PipeWire previews and uses the application icon as a
+fallback; legacy X11 window previews are no longer provided.
 
 ## Missing Qt6, compiler or CMake
 

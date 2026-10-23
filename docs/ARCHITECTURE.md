@@ -24,7 +24,7 @@ docs/                     Guides and schematic preview
 into system directories. Reconfiguration removes retired artwork and stale
 license copies from the generated package.
 
-## Why this depends on Plasma 6.7
+## Why this depends on Plasma 6.7–6.8
 
 In this Task Manager implementation, QML resources and native KDE types are
 embedded in `plasma/applets/org.kde.plasma.taskmanager.so` under Qt's plugin
@@ -48,8 +48,12 @@ the package; no user-specific absolute paths are needed.
 
 This project uses internal KDE APIs and does **not** promise compatibility
 with every Plasma version. Its resource baseline is Plasma 6.7.5.
-`install.sh` accepts only 6.7.x; `check-runtime` verifies the native resource
-layout and tests the required `pidfd` syscalls without terminating anything.
+`install.sh` accepts 6.7.x and 6.8.x; `check-runtime` verifies the native
+resource layout and tests the required `pidfd` syscalls without terminating
+anything. End Task has also been confirmed working by the user on 6.8.1.
+The copied tooltip no longer uses `PlasmaCore.WindowThumbnail`, unavailable
+in Plasma 6.8: Wayland previews use PipeWire, with an application-icon fallback
+instead of legacy X11 previews.
 
 ## Termination flow
 

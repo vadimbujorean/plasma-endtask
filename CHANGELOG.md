@@ -4,7 +4,8 @@
 
 - Fix tooltip/widget loading on Plasma 6.8 by removing the unavailable `PlasmaCore.WindowThumbnail` type.
 - Keep Wayland PipeWire previews and use an application-icon fallback instead of legacy X11 previews.
-- Document that the tooltip fix does not yet establish full Plasma 6.8 support; the installer still accepts only 6.7.x.
+- Accept Plasma 6.7.x and 6.8.x in the installer after user confirmation that End Task works on 6.8.1.
+- Update compatibility documentation and test installer acceptance/rejection of supported and unsupported versions.
 - Add optional `install.sh --replace-task-manager` automatic panel setup.
 - Preserve widget IDs, panel order, settings and pinned apps by changing only plugin IDs.
 - Back up the synchronized panel configuration while Plasma is stopped, with recovery on failure.

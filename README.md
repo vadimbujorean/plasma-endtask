@@ -10,12 +10,12 @@ of custom schemes. No third-party logos are bundled.
 
 ![Schematic dark-theme menu preview](docs/menu-preview.svg)
 
-> **Compatibility:** Linux + KDE Plasma **6.7.x**. Tested on Plasma **6.7.5**,
-> Qt **6.11.2**, **Wayland**, Arch Linux/CachyOS.
-> Plasma 5 and Plasma 6.0–6.6 are **not supported** by this release.
-> X11 and other Plasma 6.7 patch releases have not been verified.
-> A tooltip-loading fix for Plasma **6.8** is included (see below), but full
-> 6.8 compatibility is not yet verified; the installer still accepts only 6.7.x.
+> **Compatibility:** Linux + KDE Plasma **6.7.x and 6.8.x**, **Wayland**.
+> Originally tested on Plasma **6.7.5**, Qt **6.11.2**, Arch Linux/CachyOS.
+> End Task also confirmed working by the user on Plasma **6.8.1** after the
+> tooltip fix below; build, runtime checks and all five automated test suites
+> passed locally with Qt **6.12.0**. Other patch releases and X11 are unverified.
+> Plasma 5, Plasma 6.0–6.6 and Plasma 6.9+ are **not supported** by this release.
 >
 > ⚠️ Force-quitting uses **SIGKILL**: unsaved data will be lost.
 > **Close** still requests a normal, graceful shutdown.
@@ -41,7 +41,7 @@ labels may follow your desktop's language settings.
 ## 1. Requirements
 
 - Linux kernel **5.3 or later**, an accessible `/proc`, and working `pidfd` support.
-- KDE Plasma Desktop **6.7.x**, including its native Task Manager library.
+- KDE Plasma Desktop **6.7.x or 6.8.x**, including its native Task Manager library.
 - Qt6 development files for **Core, Qml and Widgets**, Qt tools (`moc`),
   and the desktop's icon-rendering plugins.
 - **KF6 IconThemes** development files for palette-aware SVG rendering.
@@ -200,9 +200,11 @@ PipeWire; the application icon is used as the fallback. Legacy X11 window
 previews are no longer provided by this widget.
 
 QML syntax, import and type checks passed against the local Plasma 6.8.0
-runtime. This is not a full build, installation or interactive compatibility
-test: `install.sh` still rejects Plasma 6.8. Do not bypass its version check
-assuming this fix guarantees complete support.
+runtime, and the user subsequently confirmed End Task works on Plasma 6.8.1.
+The installer accepts both 6.7.x and 6.8.x and retains its native-runtime and
+`pidfd` checks. A build-only installer run, runtime checks and all five CTest
+suites passed on Plasma 6.8.1 / Qt 6.12.0 without changing the installed widget
+or panel. Other patch releases and X11 remain unverified.
 
 ## Uninstall
 

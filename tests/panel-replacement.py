@@ -224,6 +224,27 @@ printf 'kpackage\n' >> "$FAKE_DIR/build-calls"
         self.assertEqual(self.path.read_bytes(), SAMPLE)
         self.assertFalse((self.directory / 'calls').exists())
 
+    def test_installer_supported_plasma_versions(self):
+        for version in ('6.7.5', '6.8.0', '6.8.1'):
+            with self.subTest(version=version):
+                self.executable('plasmashell', f'#!/usr/bin/env bash\necho "plasmashell {version}"\n')
+                result = self.run_script('install.sh', '--build-only')
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn('Package ready:', result.stdout)
+        self.assertFalse((self.directory / 'calls').exists())
+        self.assertEqual(self.path.read_bytes(), SAMPLE)
+
+    def test_installer_unsupported_plasma_versions_do_not_build(self):
+        for version in ('5.27.12', '6.6.5', '6.9.0', '6.80.1', '6.8.1.2', '6.8.1-dev', 'invalid'):
+            with self.subTest(version=version):
+                self.executable('plasmashell', f'#!/usr/bin/env bash\necho "plasmashell {version}"\n')
+                result = self.run_script('install.sh', '--build-only')
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn('Unsupported version:', result.stderr)
+                self.assertFalse((self.directory / 'build-calls').exists())
+        self.assertFalse((self.directory / 'calls').exists())
+        self.assertEqual(self.path.read_bytes(), SAMPLE)
+
     def test_opt_in_install_reloads_once_even_with_restart(self):
         result = self.run_script('install.sh', '--replace-task-manager', '--restart')
         self.assertEqual(result.returncode, 0, result.stderr)
