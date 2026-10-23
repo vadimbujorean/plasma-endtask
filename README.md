@@ -14,6 +14,8 @@ of custom schemes. No third-party logos are bundled.
 > Qt **6.11.2**, **Wayland**, Arch Linux/CachyOS.
 > Plasma 5 and Plasma 6.0–6.6 are **not supported** by this release.
 > X11 and other Plasma 6.7 patch releases have not been verified.
+> A tooltip-loading fix for Plasma **6.8** is included (see below), but full
+> 6.8 compatibility is not yet verified; the installer still accepts only 6.7.x.
 >
 > ⚠️ Force-quitting uses **SIGKILL**: unsaved data will be lost.
 > **Close** still requests a normal, graceful shutdown.
@@ -188,6 +190,19 @@ ${XDG_STATE_HOME:-~/.local/state}/plasma-endtask/backups/
 The included copy of KDE's widget does not automatically track upstream
 Plasma updates. Major Plasma/Qt changes may require a new project release
 or a rebuild; compatibility is intentionally limited.
+
+### Plasma 6.8 tooltip fix
+
+The bundled widget no longer references `PlasmaCore.WindowThumbnail`, which
+is unavailable in Plasma 6.8 and caused `ToolTipInstance`, `ToolTipDelegate`
+and the widget itself to fail to load. Wayland window previews still use
+PipeWire; the application icon is used as the fallback. Legacy X11 window
+previews are no longer provided by this widget.
+
+QML syntax, import and type checks passed against the local Plasma 6.8.0
+runtime. This is not a full build, installation or interactive compatibility
+test: `install.sh` still rejects Plasma 6.8. Do not bypass its version check
+assuming this fix guarantees complete support.
 
 ## Uninstall
 
